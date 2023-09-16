@@ -22,12 +22,14 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
+	implementation("io.leangen.graphql:graphql-spqr-spring-boot-starter:1.0.0")
+
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
 tasks.withType<KotlinCompile> {
 	kotlinOptions {
-		freeCompilerArgs += "-Xjsr305=strict"
+		freeCompilerArgs = listOf("-Xjsr305=strict", "-Xemit-jvm-type-annotations")
 		jvmTarget = "17"
 	}
 }
