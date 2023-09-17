@@ -6,10 +6,9 @@ import org.springframework.context.annotation.Configuration
 import java.lang.reflect.AnnotatedType
 
 @Configuration
-class InputGenerator : DefaultTypeInfoGenerator() {
+class InputTypeNameGeneratorConfiguration : DefaultTypeInfoGenerator() {
 
     override fun generateInputTypeName(type: AnnotatedType?, messageBundle: MessageBundle?): String {
-        super.generateInputTypeName(type, messageBundle)
         return this.generateTypeName(type, messageBundle)
     }
 }
