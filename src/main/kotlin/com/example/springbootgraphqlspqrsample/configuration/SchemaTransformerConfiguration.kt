@@ -27,6 +27,7 @@ import kotlin.reflect.full.instanceParameter
 import kotlin.reflect.jvm.jvmErasure
 import kotlin.reflect.jvm.kotlinFunction
 import kotlin.reflect.jvm.kotlinProperty
+
 /*
 The configuration was written to generate a schema with Kotlin nullable fields compatible with graphql non-null fields.
 If you do not want to use this configuration, you can use the @GraphQLNonNull annotation.
@@ -49,11 +50,11 @@ class SchemaTransformerConfiguration {
                 ): GraphQLFieldDefinition {
                     val kotlinFunction = (operation.typedElement.elements.first() as? Method)?.kotlinFunction
                     if (kotlinFunction?.instanceParameter?.type?.jvmErasure?.java?.isKotlinClass() == true) {
-                        return field.transform { it.type(buildType(field.type, kotlinFunction.returnType) as GraphQLOutputType) }
+                        return field.transform { it.type(buildGraphQLType(field.type, kotlinFunction.returnType) as GraphQLOutputType) }
                     } else {
                         val kotlinProperty = (operation.typedElement.elements.first() as? Field)?.kotlinProperty
                         if (kotlinProperty?.instanceParameter?.type?.jvmErasure?.java?.isKotlinClass() == true) {
-                            return field.transform { it.type(buildType(field.type, kotlinProperty.returnType) as GraphQLOutputType) }
+                            return field.transform { it.type(buildGraphQLType(field.type, kotlinProperty.returnType) as GraphQLOutputType) }
                         }
                     }
 
@@ -72,7 +73,7 @@ class SchemaTransformerConfiguration {
                     if (kotlinFunction?.instanceParameter?.type?.jvmErasure?.java?.isKotlinClass() == true)
                         for (arg in kotlinFunction.parameters)
                             if (arg.name == operationArgument.name) {
-                                return argument.transform { builder -> builder.type(buildType(argument.type, arg.type) as GraphQLInputType) }
+                                return argument.transform { builder -> builder.type(buildGraphQLType(argument.type, arg.type) as GraphQLInputType) }
                             }
                     return super.transformArgument(argument, operationArgument, operationMapper, buildContext)
                 }
@@ -89,7 +90,7 @@ class SchemaTransformerConfiguration {
                         ?.declaringExecutable?.declaringClass?.constructors?.first()?.kotlinFunction
                     if (kotlinFunction != null && kotlinFunction.returnType::class.java.isKotlinClass()) {
                         val types = kotlinFunction.parameters.associateBy { it.name }
-                        return field.transform { builder -> builder.type(buildType(field.type, types[field.name]?.type) as GraphQLInputType) }
+                        return field.transform { builder -> builder.type(buildGraphQLType(field.type, types[field.name]?.type) as GraphQLInputType) }
                     }
                     return super.transformInputField(field, inputField, operationMapper, buildContext)
                 }
@@ -99,6 +100,8 @@ class SchemaTransformerConfiguration {
         }
     }
 }
+
+fun buildGraphQLType(type: GraphQLType, kType: KType?): GraphQLType = buildType(type, kType)
 
 fun buildType(type: GraphQLType, kType: KType?, depth: Int = 0, isNonNulls: MutableList<Boolean> = mutableListOf(false)): GraphQLType {
     return when (type) {
