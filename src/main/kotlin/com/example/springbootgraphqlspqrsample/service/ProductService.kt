@@ -27,6 +27,8 @@ class ProductService(private val productRepository: MockProductRepository) {
                 name = input.name
                 price = input.price
                 count = input.count
+                description = input.description
+                specs = input.specs
             }
             ?: throw Exception("Not Found id: $id")
 

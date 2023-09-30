@@ -8,5 +8,7 @@ data class Product(
     var id: @GraphQLNonNull UUID? = null,
     var name: String,
     var price: BigDecimal,
-    var count: Int
+    var count: Int,
+    var description: String? = null,
+    var specs: List<String>? = null
 )

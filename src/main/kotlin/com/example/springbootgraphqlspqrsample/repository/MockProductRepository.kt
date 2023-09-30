@@ -25,6 +25,8 @@ class MockProductRepository {
                     name = product.name
                     price = product.price
                     count = product.count
+                    description = product.description
+                    specs = product.specs
                 }
                 ?: throw Exception("Not Found id: ${product.id}")
         }
@@ -47,19 +49,23 @@ class MockProductRepository {
                 id = UUID.randomUUID(),
                 name = "Notebook",
                 price = BigDecimal(10.5),
-                count = 25
+                count = 25,
+                description = "Nice Product"
             ),
             Product(
                 id = UUID.randomUUID(),
                 name = "Papers",
                 price = BigDecimal(2.0),
-                count = 1000
+                count = 1000,
+                specs = listOf("White", "A4")
             ),
             Product(
                 id = UUID.randomUUID(),
                 name = "Tape Dispenser",
                 price = BigDecimal(4.5),
-                count = 1250
+                count = 1250,
+                description = "Very Useful",
+                specs = listOf("Small", "Red")
             ),
             Product(
                 id = UUID.randomUUID(),
