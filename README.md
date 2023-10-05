@@ -24,7 +24,7 @@ You can review the generated document and schemas from the tab on the side.
 
 ![](./screenshot/gui-schema.png)
 
-Also, ypu can download the sdl from Download button.
+Also, you can download the sdl from Download button.
 
 ![](./screenshot/gui-sdl.png)
 
@@ -61,9 +61,6 @@ class InputTypeNameGeneratorConfiguration : DefaultTypeInfoGenerator() {
 
 If you are using java and want to specify non-null fields in graphql schemas, you can use the @GraphQLNonNull annotation (by default, all fields are nullable).
 If you are using kotlin, this annotation does not work by default. To do this, you need to add the '-Xemit-jvm-type-annotations' parameter to the compiler.
-However, if you are using Kotlin, you would prefer not to use this annotation. 
-Because you can define null or non-null fields in Kotlin language and it would be better to generate schemas accordingly. 
-Otherwise, you must constantly add this annotation to all non-null fields.
 
 However, if you are using Kotlin, you would prefer not to use this annotation. 
 Because you can define null or non-null fields in Kotlin language and it would be better to generate schemas accordingly. 
