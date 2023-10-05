@@ -49,6 +49,37 @@ By default, SPQR library generates schemas by automatically adding the INPUT suf
 I prefer to create the name of the class I want to use as input by adding the INPUT suffix.
 For this, I inherited the DefaultTypeInfoGenerator in the InputTypeNameGeneratorConfiguration file and overwrote the generateInputTypeName method.
 
+Example:
+1) Not overwrite the DefaultTypeInfoGenerator#generateInputTypeName case
+
+```kotlin
+@GraphQLMutation 
+fun createProduct(input: ProductInput): Product
+```
+
+Generated Schema:
+```
+type Muation {
+  createProduct(input: ProductInputInput!): Product!
+}
+```
+
+2) Overwrite the DefaultTypeInfoGenerator#generateInputTypeName case
+
+```kotlin
+@GraphQLMutation 
+fun createProduct(input: ProductInput): Product
+```
+
+Generated Schema:
+```
+type Muation {
+  createProduct(input: ProductInput!): Product!
+}
+```
+
+The configuration:
+
 ```kotlin
 @Configuration
 class InputTypeNameGeneratorConfiguration : DefaultTypeInfoGenerator() {
